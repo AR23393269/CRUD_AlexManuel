@@ -1,14 +1,14 @@
-const API = "http://localhost:3000/notas";
+const API = `${import.meta.env.VITE_API_URL}/notas`;
 
 async function manejarRespuesta(res: Response) {
   if (res.status === 429) {
     const data = await res.json();
-    alert(data.error); // 🔥 AVISO AL USUARIO
+    alert(data.error);
     return null;
   }
 
   if (!res.ok) {
-    alert("Ocurrió un error en el servidor");
+    alert("Error en el servidor");
     return null;
   }
 

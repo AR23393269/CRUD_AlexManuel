@@ -9,20 +9,18 @@ app.use(cors());
 app.use(express.json());
 
 /* ============================
-   LÍMITE DE PETICIONES
-   (NO limita GET)
+   RATE LIMIT
 ============================ */
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minuto
-  max: 20, // 20 peticiones por minuto
+  windowMs: 60 * 1000,
+  max: 20,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
-    error: "Demasiadas peticiones, intenta nuevamente en un minuto"
+    error: "Has alcanzado el límite de peticiones. Intenta nuevamente."
   }
 });
 
-// Aplicar solo a métodos que modifican datos
 app.use("/notas", (req: Request, res: Response, next: NextFunction) => {
   if (req.method === "GET") return next();
   limiter(req, res, next);
@@ -54,7 +52,7 @@ app.get("/notas", async (_req: Request, res: Response) => {
       "SELECT * FROM notas ORDER BY id ASC"
     );
     res.json(result.rows);
-  } catch {
+  } catch (err) {
     res.status(500).json({ error: "Error al obtener notas" });
   }
 });
@@ -126,6 +124,8 @@ app.delete("/notas/:id", async (req: Request, res: Response) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Servidor corriendo en puerto 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
 });
