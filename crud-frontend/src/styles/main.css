@@ -1,0 +1,271 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  color: #fff;
+}
+
+.container {
+  max-width: 900px;
+  margin: 60px auto;
+  background: rgba(20, 20, 20, 0.85);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2.4rem;
+  letter-spacing: 1px;
+}
+
+.form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.form input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.form button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #00e0ff;
+  color: #000;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.form button:hover {
+  background: #00bcd4;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+thead {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+th, td {
+  padding: 14px;
+  text-align: left;
+}
+
+th {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.actions button {
+  background: #ff4d4d;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  transition: 0.2s;
+}
+
+.actions button:hover {
+  background: #ff1f1f;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+}
+
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 520px;
+  margin: 80px 20px;
+  background: rgba(18, 18, 24, 0.9);
+  border-radius: 20px;
+  padding: 40px 36px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 28px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #f0f0f0;
+}
+
+/* ---- Form ---- */
+.form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.form input {
+  flex: 1;
+  padding: 13px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  outline: none;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.form input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.form input:focus {
+  border-color: #00e0ff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.form button {
+  padding: 13px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #00e0ff;
+  color: #0a0a0a;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.form button:hover {
+  background: #00c4dd;
+}
+
+.form button:active {
+  transform: scale(0.97);
+}
+
+/* ---- Notas Section ---- */
+.notas-section {
+  margin-top: 0;
+}
+
+.notas-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.notas-empty {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.95rem;
+  padding: 32px 0;
+}
+
+.notas-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nota-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.nota-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.nota-texto {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #e0e0e0;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.nota-delete {
+  background: none;
+  border: 1px solid rgba(255, 80, 80, 0.3);
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ff6b6b;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.nota-delete:hover {
+  background: rgba(255, 80, 80, 0.15);
+  border-color: #ff4d4d;
+  color: #ff4d4d;
+}
