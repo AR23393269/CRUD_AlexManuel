@@ -1,70 +1,97 @@
-import "./db";
-import cors from "cors";
 import express from "express";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
 import { pool } from "./db";
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
-app.use(cors({
-  origin: "*"
-}));
-// Crear tabla notas al iniciar
-(async () => {
-  try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS notas (
-        id SERIAL PRIMARY KEY,
-        texto TEXT NOT NULL
-      );
-    `);
-    console.log("Tabla 'notas' lista");
-  } catch (error) {
-    console.error("Error creando la tabla notas", error);
-  }
-})();
 
-// Ruta base
-app.get("/", (_req, res) => {
-  res.send("API funcionando");
+/* =========================
+   1️⃣ RATE LIMIT 10 REQUESTS POR MINUTO
+========================= */
+
+const limiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minuto
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: "Has alcanzado el límite de peticiones por minuto. Intenta nuevamente en un minuto."
+  }
 });
 
-// Obtener todas las notas (GET)
+app.use(limiter);
+
+/* =========================
+   2️⃣ VALIDACIONES DE SEGURIDAD
+========================= */
+
+function validarTexto(texto: string) {
+  if (!texto) return false;
+
+  // max 100 caracteres
+  if (texto.length > 100) return false;
+
+  // solo letras y numeros
+  const regex = /^[a-zA-Z0-9\s]+$/;
+  return regex.test(texto);
+}
+
+/* =========================
+   RUTAS
+========================= */
+
 app.get("/notas", async (_req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM notas ORDER BY id DESC");
-    res.json(result.rows);
-  } catch (error) {
-    res.status(500).json({ error: "Error al obtener notas" });
-  }
+  const result = await pool.query("SELECT * FROM notas ORDER BY id DESC");
+  res.json(result.rows);
 });
 
-// Crear nota (POST)
 app.post("/notas", async (req, res) => {
-  try {
-    const { texto } = req.body;
-    const result = await pool.query(
-      "INSERT INTO notas (texto) VALUES ($1) RETURNING *",
-      [texto]
-    );
-    res.json(result.rows[0]);
-  } catch (error) {
-    res.status(500).json({ error: "Error al crear nota" });
+  const { texto } = req.body;
+
+  if (!validarTexto(texto)) {
+    return res.status(400).json({
+      error:
+        "Solo se permiten letras y números (máximo 100 caracteres). No se permiten scripts."
+    });
   }
+
+  const result = await pool.query(
+    "INSERT INTO notas (texto) VALUES ($1) RETURNING *",
+    [texto]
+  );
+
+  res.json(result.rows[0]);
 });
 
-// Eliminar nota (DELETE)
+app.put("/notas/:id", async (req, res) => {
+  const { id } = req.params;
+  const { texto } = req.body;
+
+  if (!validarTexto(texto)) {
+    return res.status(400).json({
+      error: "Solo se permiten letras y números (máximo 100 caracteres)."
+    });
+  }
+
+  const result = await pool.query(
+    "UPDATE notas SET texto=$1 WHERE id=$2 RETURNING *",
+    [texto, id]
+  );
+
+  res.json(result.rows[0]);
+});
+
+
 app.delete("/notas/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    await pool.query("DELETE FROM notas WHERE id = $1", [id]);
-    res.json({ message: "Nota eliminada" });
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar nota" });
-  }
+  const { id } = req.params;
+  await pool.query("DELETE FROM notas WHERE id=$1", [id]);
+  res.json({ message: "Nota eliminada" });
 });
 
-const PORT = Number(process.env.PORT) || 3000;
-
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en puerto ${PORT}`);
 });
